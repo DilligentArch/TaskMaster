@@ -44,7 +44,7 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       if (currentUser?.email) {
         
-          axios.post("http://localhost:5000/users", {
+          axios.post("https://task-master-server-side-theta.vercel.app/users", {
             name: currentUser?.displayName || "Anonymous",
             image: currentUser?.photoURL || "https://via.placeholder.com/150",
             email: currentUser?.email,
