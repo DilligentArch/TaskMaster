@@ -8,6 +8,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import axios from "axios";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 // Create Auth Context
 export const AuthContext = createContext();
@@ -15,6 +16,7 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider(); // Move provider outside the component to prevent re-creation
 
 const AuthProvider = ({ children }) => {
+  const axiosPublic=useAxiosPublic();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
@@ -44,11 +46,11 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       if (currentUser?.email) {
         
-          axios.post("https://task-master-server-side-theta.vercel.app/users", {
+          axiosPublic.post("/users", {
             name: currentUser?.displayName || "Anonymous",
             image: currentUser?.photoURL || "https://via.placeholder.com/150",
             email: currentUser?.email,
-            isAdmin: false,
+           
           })
           .then((response) => {
             if (response.data.message === "User already exists") {
